@@ -48,5 +48,9 @@ export class OrganizersService {
 
         return organizer
     }
+
+    async getMyOrganizer(userId: string) {
+        return this.isUserHaveOrganizer(userId)
+    }
 }
 

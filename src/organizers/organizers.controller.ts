@@ -30,6 +30,15 @@ export class OrganizersController {
     }
   }
 
+  @UseGuards(RoleGuard(UserRole.ORGANIZER))
+  @Get("me")
+  async getMyOrganizer(@CurrentUser('userId') userId: string) {
+    return {
+      message: `Get my organizer successfully`,
+      data: await this.organizersService.getMyOrganizer(userId)
+    }
+  }
+
   @UseGuards(RoleGuard(UserRole.USER))
   @Get(":organizerId")
   async getOrganizer(@Param("organizerId") organizerId: string) {
