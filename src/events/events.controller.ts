@@ -48,12 +48,11 @@ export class EventsController {
     }
   }
 
-  @UseGuards(RoleGuard(UserRole.USER))
   @Get(":eventId")
-  async getEvent(@Param("eventId") eventId: string) {
+  async getEvent(@Param("eventId") eventId: string, @CurrentUser("role") role: UserRole, @CurrentUser("userId") userId: UserRole) {
     return {
       message: `Get event with id: ${eventId} success`,
-      data: await this.eventsService.getEvent(eventId)
+      data: await this.eventsService.getEvent(eventId, role, userId)
     }
   }
 

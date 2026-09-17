@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateEventsDto } from "./dto/create-events.dto";
 import { UpdateEventsDto } from "./dto/update-events.dto";
+import { EventStatus, OrganizerStatus } from "generated/prisma/enums";
 
 @Injectable()
 export class EventsRepository {
@@ -23,11 +24,15 @@ export class EventsRepository {
         return this.prisma.event.findUnique({
             where: {
                 id: eventId
+            },
+            include: {
+                organizer: true
             }
         })
     }
 
     updateEvent(dto: UpdateEventsDto, eventId: string) {
+        console.log(dto)
         return this.prisma.event.update({
             where: {
                 id: eventId
@@ -45,12 +50,22 @@ export class EventsRepository {
                 ...(dto.startAt && {
                     startAt: new Date(dto.startAt)
                 }),
+                ...(dto.status && {
+                    status: dto.status
+                }),
             }
         })
     }
 
     findAllEvents() {
-        return this.prisma.event.findMany()
+        return this.prisma.event.findMany({
+            where: {
+                status: EventStatus.PUBLIC,
+                organizer: {
+                    status: OrganizerStatus.ACTIVE
+                }
+            }
+        })
     }
 
     findMyEvents(userId: string) {

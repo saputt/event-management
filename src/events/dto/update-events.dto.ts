@@ -1,11 +1,16 @@
 import { Type } from "class-transformer"
-import { IsDate, IsOptional, IsString } from "class-validator"
+import { IsDate, IsEnum, IsOptional, IsString } from "class-validator"
+import { EventStatus } from "generated/prisma/enums"
 
 export class UpdateEventsDto {
     @IsOptional()
     @IsString()
     name: string         
     
+    @IsOptional()
+    @IsEnum(EventStatus)
+    status: EventStatus    
+
     @IsOptional()
     @IsString()
     description: string
