@@ -38,4 +38,13 @@ export class EventsController {
       data: await this.eventsService.getAllEvents()
     }
   }
+
+  @UseGuards(RoleGuard(UserRole.USER))
+  @Get(":eventId")
+  async getEvent(@Param("eventId") eventId: string) {
+    return {
+      message: `Get event with id: ${eventId} success`,
+      data: await this.eventsService.getEvent(eventId)
+    }
+  }
 }

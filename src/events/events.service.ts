@@ -42,4 +42,8 @@ export class EventsService {
     async getAllEvents() {
         return this.eventsRepo.findAllEvents()
     }
+
+    async getEvent(eventId: string) {
+        return this.isEventExist(eventId)
+    }
 }
