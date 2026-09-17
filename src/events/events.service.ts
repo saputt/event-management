@@ -46,4 +46,18 @@ export class EventsService {
     async getEvent(eventId: string) {
         return this.isEventExist(eventId)
     }
+
+    async deleteEvent(eventId: string, userId: string) {
+        const organizer = await this.organizersService.isUserHaveOrganizer(userId)
+
+        const event = await this.isEventExist(eventId)
+
+        if (event.organizerId != organizer.id) {
+            throw new UnauthorizedException(`You're not authorized to delete this event`)
+        }
+
+        await this.eventsRepo.deleteEvent(eventId)
+
+        return true
+    }
 }

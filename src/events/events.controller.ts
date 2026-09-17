@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CreateEventsDto } from './dto/create-events.dto';
@@ -45,6 +45,15 @@ export class EventsController {
     return {
       message: `Get event with id: ${eventId} success`,
       data: await this.eventsService.getEvent(eventId)
+    }
+  }
+
+  @UseGuards(RoleGuard(UserRole.ORGANIZER))
+  @Delete(":eventId")
+  async deleteEvent(@Param("eventId") eventId: string, @CurrentUser("userId") userId: string) {
+    return {
+      message: `Delete event with id: ${eventId} success`,
+      data: await this.eventsService.deleteEvent(eventId, userId)
     }
   }
 }

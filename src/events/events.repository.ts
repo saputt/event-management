@@ -52,4 +52,12 @@ export class EventsRepository {
     findAllEvents() {
         return this.prisma.event.findMany()
     }
+
+    deleteEvent(eventId: string) {
+        return this.prisma.event.delete({
+            where: {
+                id: eventId
+            }
+        })
+    }
 }
