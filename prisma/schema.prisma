@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ORGANIZER
+  USER
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String 
+  name         String
+
+  role UserRole @default(USER)
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  organizer Organizer?
+}
+
+model Organizer {
+  id           String   @id @default(uuid())
+  name         String
+  description  String? 
+  address String?
+
+  userId String @unique
+
+  owner User @relation(fields: [userId], references: [id])
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  events Event[]
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  name         String
+  description  String 
+
+  organizerId String
+
+  startAt DateTime
+  endAt DateTime
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  organizer Organizer @relation(fields: [organizerId], references: [id], onDelete: Cascade)
+}
