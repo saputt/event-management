@@ -22,7 +22,7 @@ export class OrganizersController {
   }
 
   @UseGuards(RoleGuard(UserRole.ORGANIZER))
-  @Patch("update")
+  @Patch("me")
   async updateOrganizer(@Body() dto: UpdateOrganizerDto, @CurrentUser("userId") userId: string) {
     return {
       message: 'Organizer updated successfully',
