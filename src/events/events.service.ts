@@ -38,4 +38,8 @@ export class EventsService {
 
         return this.eventsRepo.updateEvent(dto, eventId)
     }
+
+    async getAllEvents() {
+        return this.eventsRepo.findAllEvents()
+    }
 }

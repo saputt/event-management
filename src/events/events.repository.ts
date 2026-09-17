@@ -48,4 +48,8 @@ export class EventsRepository {
             }
         })
     }
+
+    findAllEvents() {
+        return this.prisma.event.findMany()
+    }
 }

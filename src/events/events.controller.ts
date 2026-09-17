@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CreateEventsDto } from './dto/create-events.dto';
@@ -21,11 +21,21 @@ export class EventsController {
     }
   }
 
+  @UseGuards(RoleGuard(UserRole.ORGANIZER))
   @Patch(":eventId")
   async updateEvent(@CurrentUser("userId") userId: string, @Body() dto: UpdateEventsDto, @Param("eventId") eventId: string) {
     return {
       message: "Update events success",
       data: await this.eventsService.updateEvents(dto, userId, eventId)
+    }
+  }
+
+  @UseGuards(RoleGuard(UserRole.USER))
+  @Get()
+  async getAllEvents() {
+    return {
+      message: "Get all events success",
+      data: await this.eventsService.getAllEvents()
     }
   }
 }
