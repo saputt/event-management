@@ -18,7 +18,7 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('should login as a user and return accessToken', async () => {
+  it('[user] should login as a user and return accessToken', async () => {
     const res = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
@@ -31,7 +31,7 @@ describe('AppController (e2e)', () => {
     userAccessToken = res.body.data.accessToken
   });
 
-  it('should access protect endpoint with a valid accessToken', async () => {
+  it('[user] should access protect endpoint with a valid accessToken', async () => {
     const res = await request(app.getHttpServer())
       .get('/events')
       .set("Authorization", `Bearer ${userAccessToken}`)
@@ -39,18 +39,55 @@ describe('AppController (e2e)', () => {
     expect(res.statusCode).toBe(200)
   });
 
-  it('should reject request without accessToken', async () => {
+  it('[user] should reject request without accessToken', async () => {
     const res = await request(app.getHttpServer())
       .get('/events')
     
     expect(res.statusCode).toBe(401)
   });
 
-  it('should reject request to protect roles endpoint with a invalid roles', async () => {
+  it('[user] should reject request to protect roles endpoint with a invalid roles', async () => {
     const res = await request(app.getHttpServer())
-      .get('/events/da57f6c8-31f8-4bd0-a7cb-a48e0ff21b7d')
+      .get('/organizers/me')
+      .set("Authorization", `Bearer ${userAccessToken}`)
     
+    expect(res.statusCode).toBe(403)
+  });
+
+    it('[organizer] should login as a user and return accessToken', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "organizer@gmail.com",
+        password: "organizer123"
+      })
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body.data.accessToken).toBeDefined()
+    organizerAccessToken = res.body.data.accessToken
+  });
+
+  it('[organizer] should access protect endpoint with a valid accessToken', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/organizers/me')
+      .set("Authorization", `Bearer ${organizerAccessToken}`)
+    console.log(res)
+    expect(res.statusCode).toBe(200)
+  });
+
+  it('[organizer] should reject request without accessToken', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/organizers/me')
+
     expect(res.statusCode).toBe(401)
+  });
+
+  it('[organizer] should reject request to protect roles endpoint with a invalid roles', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/events')
+      .set("Authorization", `Bearer ${organizerAccessToken}`)
+
+    expect(res.statusCode).toBe(403)
   });
 
   afterAll(async () => {
