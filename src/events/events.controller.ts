@@ -39,6 +39,15 @@ export class EventsController {
     }
   }
 
+  @UseGuards(RoleGuard(UserRole.ORGANIZER))
+  @Get("me")
+  async getMyEvents(@CurrentUser("userId") userId: string) {
+    return {
+      message: "Get all my events success",
+      data: await this.eventsService.getAllMyEvents(userId)
+    }
+  }
+
   @UseGuards(RoleGuard(UserRole.USER))
   @Get(":eventId")
   async getEvent(@Param("eventId") eventId: string) {

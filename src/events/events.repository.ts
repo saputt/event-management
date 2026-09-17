@@ -53,6 +53,16 @@ export class EventsRepository {
         return this.prisma.event.findMany()
     }
 
+    findMyEvents(userId: string) {
+        return this.prisma.event.findMany({
+            where: {
+                organizer: {
+                    userId
+                }
+            }
+        })
+    }
+
     deleteEvent(eventId: string) {
         return this.prisma.event.delete({
             where: {

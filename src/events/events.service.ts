@@ -43,6 +43,10 @@ export class EventsService {
         return this.eventsRepo.findAllEvents()
     }
 
+    async getAllMyEvents(userId: string) {
+        return this.eventsRepo.findMyEvents(userId)
+    }
+
     async getEvent(eventId: string) {
         return this.isEventExist(eventId)
     }
