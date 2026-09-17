@@ -7,6 +7,7 @@ import { OrganizersRepository } from './organizers.repository';
 @Module({
   controllers: [OrganizersController],
   providers: [OrganizersService, OrganizersRepository],
-  imports: [PrismaModule]
+  imports: [PrismaModule],
+  exports: [OrganizersService]
 })
 export class OrganizersModule {}
