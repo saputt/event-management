@@ -38,5 +38,15 @@ export class OrganizersService {
 
         return this.organizerRepo.updateOrganizer(dto, userId)
     }   
+
+    async getOrganizer(organizerId: string) {
+        const organizer = await this.organizerRepo.findOrganizerById(organizerId)
+
+        if (!organizer) {
+            throw new NotFoundException(`Organizer with id: ${organizerId} not found`)
+        }
+
+        return organizer
+    }
 }
 

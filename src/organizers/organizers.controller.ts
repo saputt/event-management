@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { OrganizersService } from './organizers.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { CreateOrganizerDto } from './dto/create-organizer.dto';
@@ -27,6 +27,15 @@ export class OrganizersController {
     return {
       message: 'Organizer updated successfully',
       data: await this.organizersService.updateOrganizer(dto, userId)
+    }
+  }
+
+  @UseGuards(RoleGuard(UserRole.USER))
+  @Get(":organizerId")
+  async getOrganizer(@Param("organizerId") organizerId: string) {
+    return {
+      message: `Get organizer with id: ${organizerId} successfully`,
+      data: await this.organizersService.getOrganizer(organizerId)
     }
   }
 }

@@ -30,6 +30,14 @@ export class OrganizersRepository {
         })
     }
 
+    findOrganizerById(organizerId: string) {
+        return this.prisma.organizer.findUnique({
+            where: {
+                id: organizerId
+            }
+        })
+    }
+
     updateOrganizer(dto: UpdateOrganizerDto, userId: string) {
         return this.prisma.organizer.update({
             where: {
