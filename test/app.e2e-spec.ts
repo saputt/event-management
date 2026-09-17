@@ -6,8 +6,10 @@ import { AppModule } from '../src/main.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
+  let userAccessToken: string
+  let organizerAccessToken: string
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -16,14 +18,42 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it('should login as a user and return accessToken', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "user@gmail.com",
+        password: "user123"
+      })
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body.data.accessToken).toBeDefined()
+    userAccessToken = res.body.data.accessToken
   });
 
-  afterEach(async () => {
+  it('should access protect endpoint with a valid accessToken', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/events')
+      .set("Authorization", `Bearer ${userAccessToken}`)
+
+    expect(res.statusCode).toBe(200)
+  });
+
+  it('should reject request without accessToken', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/events')
+    
+    expect(res.statusCode).toBe(401)
+  });
+
+  it('should reject request to protect roles endpoint with a invalid roles', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/events/da57f6c8-31f8-4bd0-a7cb-a48e0ff21b7d')
+    
+    expect(res.statusCode).toBe(401)
+  });
+
+  afterAll(async () => {
     await app.close();
   });
 });
