@@ -1,7 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { OrganizersRepository } from './organizers.repository';
 import { CreateOrganizerDto } from './dto/create-organizer.dto';
 import { UpdateOrganizerDto } from './dto/update-organizer.dto';
+import { OrganizerStatus } from 'generated/prisma/enums';
 
 @Injectable()
 export class OrganizersService {
@@ -44,6 +45,10 @@ export class OrganizersService {
 
         if (!organizer) {
             throw new NotFoundException(`Organizer with id: ${organizerId} not found`)
+        }
+
+        if (organizer.status !== OrganizerStatus.INACTIVE) {
+            throw new UnauthorizedException("Organization is no longer active")
         }
 
         return organizer

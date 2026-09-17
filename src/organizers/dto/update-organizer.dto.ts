@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { OrganizerStatus } from "generated/prisma/enums"
 
 export class UpdateOrganizerDto {
     @IsOptional()
@@ -12,4 +13,8 @@ export class UpdateOrganizerDto {
     @IsOptional()
     @IsString()
     address: string
+
+    @IsOptional()
+    @IsEnum(OrganizerStatus)
+    status: OrganizerStatus
 }

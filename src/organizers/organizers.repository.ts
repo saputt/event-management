@@ -53,6 +53,9 @@ export class OrganizersRepository {
                 ...(dto.address && {
                     address: dto.address
                 }),
+                ...(dto.status && {
+                    status: dto.status
+                }),
             }
         })
     }
