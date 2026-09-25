@@ -3,7 +3,7 @@ import { EventsRepository } from './events.repository';
 import { CreateEventsDto } from './dto/create-events.dto';
 import { OrganizersService } from 'src/organizers/organizers.service';
 import { UpdateEventsDto } from './dto/update-events.dto';
-import { OrganizerStatus, UserRole } from 'generated/prisma/enums';
+import { EventStatus, OrganizerStatus, UserRole } from 'generated/prisma/enums';
 
 @Injectable()
 export class EventsService {
@@ -51,8 +51,14 @@ export class EventsService {
     async getEvent(eventId: string, role: UserRole, userId: string) {
         const event = await this.isEventExist(eventId)
 
-        if (role == UserRole.USER && event.organizer.status !== OrganizerStatus.INACTIVE) {
-            throw new UnauthorizedException(`You're not authorized to see this event`)
+        console.log(event)
+
+        if (role == UserRole.USER && event.organizer.status !== OrganizerStatus.ACTIVE) {
+            throw new UnauthorizedException(`You're not authorized to see this event. Organizer is inactive`)
+        }
+
+        if (role == UserRole.USER && event.status !== EventStatus.PUBLIC) {
+            throw new UnauthorizedException(`You're not authorized to see this private event`)
         }
 
         if (role == UserRole.ORGANIZER && event.organizer.userId !== userId) {
