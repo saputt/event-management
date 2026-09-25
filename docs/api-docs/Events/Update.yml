@@ -1,0 +1,25 @@
+info:
+  name: Update
+  type: http
+  seq: 2
+
+http:
+  method: PATCH
+  url: http://localhost:3000/api/events/b7a862a0-7590-42f0-b853-7334e5cd6bb4
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiT1JHQU5JWkVSIiwidXNlcklkIjoiZDk0YTY4YjEtNGY3MC00YjMzLWIwYTgtZWI2M2NjNWE4MmJiIiwiaWF0IjoxNzg5NzgzODA2LCJleHAiOjE3OTAzODg2MDZ9.i-5rh1JHTc-m1pPdJZN3snu-c58QxNS70G2cleEBbgg
+  body:
+    type: json
+    data: |-
+      {
+        "status": "PRIVATE"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -1,0 +1,25 @@
+info:
+  name: Register
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3000/api/auth/register
+  body:
+    type: json
+    data: |-
+      {
+        "email": "organizer@gmail.com",
+        "password": "organizer123",
+        "name": "organizer",
+        "role": "ORGANIZER"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

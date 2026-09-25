@@ -1,0 +1,19 @@
+info:
+  name: Get Event
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: http://localhost:3000/api/events/da57f6c8-31f8-4bd0-a7cb-a48e0ff21b7d
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiVVNFUiIsInVzZXJJZCI6IjM4MTI3OTczLTg4YjctNDU2YS1hM2ZiLTVkYTIzYjZkZDY3NSIsImlhdCI6MTc4OTY0MTY3MiwiZXhwIjoxNzkwMjQ2NDcyfQ.MRfxe2HOshHa0Nv_0HhL3FmVupvH_qO57xvezOgv4w0
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

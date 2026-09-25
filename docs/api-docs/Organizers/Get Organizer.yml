@@ -1,0 +1,19 @@
+info:
+  name: Get Organizer
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: http://localhost:3000/api/organizers/c8cb96ec-ae62-4ca1-8fd6-742263acd3a6
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiVVNFUiIsInVzZXJJZCI6IjVhMjgzYzQ3LWI2MWYtNGIyMC04NDY4LTU3Yjk0ZTE2YzVjZSIsImlhdCI6MTc4OTY1MDgwMywiZXhwIjoxNzkwMjU1NjAzfQ.Nf05tc3MfCJ568CljMGpn-3BBFrFsfHIqut76lyBCVA
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -1,0 +1,28 @@
+info:
+  name: Create
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3000/api/events
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiT1JHQU5JWkVSIiwidXNlcklkIjoiZDk0YTY4YjEtNGY3MC00YjMzLWIwYTgtZWI2M2NjNWE4MmJiIiwiaWF0IjoxNzg5NjY3NDI2LCJleHAiOjE3OTAyNzIyMjZ9.AR4k1QTZr9sS9pKFFZhwYFo1AyBRmzd4o6Yp1czIVQY
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Kemerdekaan",
+        "description": "Rayakan kemederkaan",
+        "startAt": "2026-09-18T03:00:00.000Z",
+        "endAt": "2026-09-19T03:00:00.000Z"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
