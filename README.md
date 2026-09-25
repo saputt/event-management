@@ -1,4 +1,3 @@
-````md
 # Event Management API
 
 A simple REST API for managing organizers and events, built with NestJS and TypeScript.
@@ -206,5 +205,3 @@ event-management/
 GitHub: https://github.com/saputt
 
 Repository: https://github.com/saputt/event-management
-
-````
