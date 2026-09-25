@@ -47,7 +47,7 @@ export class OrganizersService {
             throw new NotFoundException(`Organizer with id: ${organizerId} not found`)
         }
 
-        if (organizer.status !== OrganizerStatus.INACTIVE) {
+        if (organizer.status !== OrganizerStatus.ACTIVE) {
             throw new UnauthorizedException("Organization is no longer active")
         }
 
